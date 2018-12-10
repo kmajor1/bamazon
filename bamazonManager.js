@@ -17,7 +17,7 @@ function mainMenu() {
                 queryRequested(productsQStr,null,productsForSale)
             }
             else if (answers.mainMenuOption == 'View Low Inventory' ) {
-                console.log('Low Invetory fn')
+                queryRequested(lowInventoryQStr,lowInvParam,lowInventory)
             }
             else if (answers.mainMenuOption == 'Add to Inventory') {
                 console.log('add to inventory fn')
@@ -26,7 +26,7 @@ function mainMenu() {
                 console.log('add new product fn')
             }
             else {
-                return 
+                pool.end()
             }
         })
     
@@ -43,6 +43,8 @@ var pool = mysql.createPool({
 
 // relevant query strings 
 var productsQStr = `select * from products`
+var lowInventoryQStr = `select * from products where stock_quantity < ?`
+var lowInvParam = ['5']
 
 // function that takes in a query string and a call back to do something
 function queryRequested(queryString, queryParams, callBack) {
@@ -50,13 +52,29 @@ function queryRequested(queryString, queryParams, callBack) {
         if (err) {
             console.log(err)
         }
-        connection.query(queryString,callBack)
-        connection.release()
+        if (queryParams !== null) {
+            connection.query(queryString,queryParams,callBack)
+            connection.release()
+        }
+        else {
+            connection.query(queryString,callBack)
+            connection.release()
+        }
+        
     })
 }
 
 // call back for products for sale 
 function productsForSale(err,results) {
+    if (err) {
+        console.log(err)
+    }
+    console.table(results)
+    mainMenu()
+}
+
+// callback for low inventory query 
+function lowInventory(err, results) {
     if (err) {
         console.log(err)
     }
