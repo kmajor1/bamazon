@@ -162,7 +162,6 @@ function newProduct (err, results) {
   if (err) {
     console.log(err)
   }
-  console.table(results)
   mainMenu()
 }
 
