@@ -11,7 +11,7 @@ var pool = mysql.createPool({
 })
 
 // relevant query strings
-var productsQStr = `select * from products`
+var productsQStr = `select products.id, product_name, department_name, department_id, price, stock_quantity from products join departments on departments.id=products.department_id;`
 var lowInventoryQStr = `select * from products where stock_quantity < ?`
 var lowInvParam = ['5']
 var getProductCurQuantity = `select stock_quantity from products where id = ? `
@@ -71,7 +71,6 @@ function mainMenu () {
             })
           })
       } else if (answers.mainMenuOption === 'Add New Product') {
-        console.log('add new product fn')
         prompt.prompt([
           {
             type: 'input',
@@ -95,17 +94,30 @@ function mainMenu () {
           {
             type: 'input',
             name: 'newProductPrice',
-            message: 'Enter product price'
+            message: 'Enter product price',
+            validate: function (input) {
+              if (isNaN(parseInt(input))) {
+                return 'Must be a number!'
+              } else {
+                return true
+              }
+            }
           },
           {
             type: 'input',
             name: 'newProductQuantity',
-            message: 'Enter starting quantity'
+            message: 'Enter starting quantity',
+            validate: function (input) {
+              if (isNaN(parseInt(input))) {
+                return 'Must be a number!'
+              } else {
+                return true
+              }
+            }
           }
         ])
           .then(function (answers) {
             var newProductParams = [answers.newProductName, answers.newProductDept, answers.newProductPrice, answers.newProductQuantity]
-            console.log(newProductParams)
             queryRequested(newProductQStr, newProductParams, newProduct)
           })
       } else {
