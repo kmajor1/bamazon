@@ -162,6 +162,7 @@ function newProduct (err, results) {
   if (err) {
     console.log(err)
   }
+  console.log(`New product added, Product ID = ${results.insertId}`)
   mainMenu()
 }
 
