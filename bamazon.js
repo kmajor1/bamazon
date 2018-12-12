@@ -61,28 +61,23 @@ function checkQuantity (productId, quantity) {
     }
     var actualQuantity = results[0].stock_quantity
     var quantityInt = parseInt(quantity)
-    var totalCost = (results[0].price)*quantityInt
+    var totalCost = (results[0].price) * quantityInt
     var productName = results[0].product_name
 
     if (actualQuantity < quantityInt) {
       console.log(`Insufficient quantity! Only ${actualQuantity} left!`)
       connection.end()
     } else {
-      connection.query(`update products set stock_quantity = ? where id = ? `, [actualQuantity-quantityInt, productId], function(err, res) {
+      connection.query(`update products set stock_quantity = ? where id = ? `, [actualQuantity - quantityInt, productId], function (err, res) {
         if (err) {
           console.log(err)
           connection.end()
         }
         console.log(`Your order of ${quantityInt} units of ${productName} was successful!`)
-        console.log('You owe $'+totalCost)
+        console.log('You owe $' + totalCost)
         console.log()
         connection.end()
       })
-
     }
-
   })
 }
-
-// had to add this because mySql gets mad when you close the connection and reopen it later. if its closed, it's closed for good
-// unless you make a new connection config. Could use pooling, but that's extra unecessary work.

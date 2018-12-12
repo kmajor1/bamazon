@@ -31,11 +31,11 @@ var mainMenuPrompt = [
 function mainMenu () {
   prompt.prompt(mainMenuPrompt)
     .then(function (answers) {
-      if (answers.mainMenuOption == 'View Products for Sale') {
+      if (answers.mainMenuOption === 'View Products for Sale') {
         queryRequested(productsQStr, null, productsForSale)
-      } else if (answers.mainMenuOption == 'View Low Inventory') {
+      } else if (answers.mainMenuOption === 'View Low Inventory') {
         queryRequested(lowInventoryQStr, lowInvParam, lowInventory)
-      } else if (answers.mainMenuOption == 'Add to Inventory') {
+      } else if (answers.mainMenuOption === 'Add to Inventory') {
         prompt.prompt([
           {
             type: 'input',
@@ -70,7 +70,7 @@ function mainMenu () {
               })
             })
           })
-      } else if (answers.mainMenuOption == 'Add New Product') {
+      } else if (answers.mainMenuOption === 'Add New Product') {
         console.log('add new product fn')
         prompt.prompt([
           {
