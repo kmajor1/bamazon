@@ -64,8 +64,6 @@ function checkQuantity (productId, quantity) {
     var totalCost = (results[0].price)*quantityInt
     var productName = results[0].product_name
 
-    console.log(actualQuantity)
-    console.log(quantityInt)
     if (actualQuantity < quantityInt) {
       console.log(`Insufficient quantity! Only ${actualQuantity} left!`)
       connection.end()
