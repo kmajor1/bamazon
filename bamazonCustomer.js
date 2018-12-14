@@ -90,5 +90,4 @@ function checkQuantity (productId, quantity) {
       })
     }
   })
-  console.log('beat you to it')
 }
