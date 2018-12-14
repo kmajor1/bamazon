@@ -75,9 +75,20 @@ function checkQuantity (productId, quantity) {
         }
         console.log(`Your order of ${quantityInt} units of ${productName} was successful!`)
         console.log('You owe $' + totalCost)
-        console.log()
-        connection.end()
+        connection.query(`select product_sales from products where id=?`, [productId], function (err, results) {
+          if (err) {
+            console.log(err)
+          }
+          let productSales = results[0].product_sales + totalCost
+          connection.query(`update products set product_sales=? where id=?`, [productSales, productId], function (err, results) {
+            if (err) {
+              console.log(err)
+            }
+            connection.end()
+          })
+        })
       })
     }
   })
+  console.log('beat you to it')
 }

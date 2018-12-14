@@ -11,12 +11,12 @@ var pool = mysql.createPool({
 })
 
 // relevant query strings
-var productsQStr = `select products.id, product_name, department_name, department_id, price, stock_quantity from products join departments on departments.id=products.department_id;`
+var productsQStr = `select products.id, product_name, department_id, department_name, price, stock_quantity from products join departments on departments.id=products.department_id;`
 var lowInventoryQStr = `select * from products where stock_quantity < ?`
 var lowInvParam = ['5']
 var getProductCurQuantity = `select stock_quantity from products where id = ? `
 var addInvetoryQStr = `update products set stock_quantity = ? where id = ?`
-var newProductQStr = `insert into products VALUES (null,?,?,?,?)`
+var newProductQStr = `insert into products VALUES (null,?,?,?,?,0)`
 
 var mainMenuPrompt = [
   {
