@@ -23,7 +23,7 @@ var mainMenuPrompt = [
     type: 'list',
     message: 'Please select an option: ',
     name: 'mainMenuOption',
-    choices: ['View Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product', 'Exit']
+    choices: ['View Products for Sale', 'View Low Inventory', 'Add Stock to Inventory', 'Add New Product', 'Exit']
   }
 ]
 
@@ -35,17 +35,33 @@ function mainMenu () {
         queryRequested(productsQStr, null, productsForSale)
       } else if (answers.mainMenuOption === 'View Low Inventory') {
         queryRequested(lowInventoryQStr, lowInvParam, lowInventory)
-      } else if (answers.mainMenuOption === 'Add to Inventory') {
+      } else if (answers.mainMenuOption === 'Add Stock to Inventory') {
         prompt.prompt([
           {
             type: 'input',
             name: 'productIdAdd',
-            message: 'Please provide ID of product quantity to add'
+            message: 'Please select a Product ID',
+            validate: function (input){
+              if (isNaN(parseInt(input))) {
+                return 'Must be a number!'
+              }
+              else {
+                return true 
+              }
+            }
           },
           {
             type: 'input',
             name: 'productIdAmtToAdd',
-            message: 'Please enter quantity of product to add'
+            message: 'Please enter quantity to add to inventory',
+            validate: function(input) {
+              if (isNaN(parseInt(input))) {
+                return 'Must be a number!'
+              }
+              else {
+                return true 
+              }
+            }
           }
         ])
           .then(function (answers) {
